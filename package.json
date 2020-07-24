@@ -1,7 +1,7 @@
 {
-  "name": "mobx-react-boilerplate",
-  "version": "1.0.0",
-  "description": "Boilerplate for MobX + React project with JSX, ES6 and decorator compilation",
+  "name": "sfs-briefing",
+  "version": "0.1.0",
+  "description": "Blueprint editor for spaceflight simulator",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
     "build": "webpack",
@@ -9,21 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mobxjs/mobx-react-boilerplate.git"
+    "url": "https://github.com/aziaziazi/sfs-briefing.git"
   },
   "keywords": [
-    "react",
-    "reactjs",
-    "boilerplate",
-    "mobx",
-    "starter-kit"
+    "sfs",
+    "spaceflight simulator",
+    "blueprint",
+    "bp editor"
   ],
-  "author": "Michel Weststrate <mweststrate@gmail.com> (http://github.com/mweststrate)",
+  "author": "Camille Gabrieli",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mobxjs/mobx/issues"
-  },
-  "homepage": "http://mobxjs.github.com/mobx",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
