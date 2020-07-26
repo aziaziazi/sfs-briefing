@@ -1,9 +1,11 @@
 import { action, computed, observable } from 'mobx';
 import { BLOC_SIZE } from './constants';
+import LionSrc from '../lion.png'
 
 export default class ProbeModel {
   partsStore; // keep this line ?
   n = 'Probe';
+  img = LionSrc;
   id = Math.random();
   originalSizeX = 2 * BLOC_SIZE;
   originalSizeY = BLOC_SIZE;

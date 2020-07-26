@@ -1,7 +1,23 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { observer } from "mobx-react";
 import Part from './Part';
-import {withPartList} from "../models/PartsListModel";
+import {PartsListProvider, usePartList, withPartList} from "../models/PartsListModel";
+import {Image, Layer, Rect, Stage, Text} from "react-konva";
+import useImage from "use-image";
+
+const Par = observer(({p}) => {
+  const [image] = useImage(p.img)
+
+  return <Image image={image} />
+})
+
+const Parts = observer(() => {
+  const pt = usePartList()
+
+  return <Fragment>
+    {pt.parts.map(p => <Par p={p}/>)}
+  </Fragment>
+})
 
 @withPartList
 @observer
@@ -19,6 +35,13 @@ class PartsList extends React.Component {
             })
           }
         </div>
+        <Stage width={window.innerWidth} height={window.innerHeight}>
+        <PartsListProvider partListStore={this.props.store}>
+          <Layer>
+            <Parts />
+          </Layer>
+        </PartsListProvider>
+        </Stage>
       </div>
     );
   }
