@@ -9,18 +9,35 @@ export default class PartsListModel {
   @computed
   get bluePrint() {
     const partsFiltered = toJS(this.parts.map(p => p.bluePrintData))
-    const json = JSON.stringify({parts: partsFiltered})
+    const json = JSON.stringify({parts: partsFiltered}, null, 2)
 
     return json.replace(/"/g, "'")
   }
 
   @action
   addProbe() {
-    this.parts.push(new ProbeModel(this.parts, 1, 1, 1, 1, 90, 2.0));
+    this.parts.push(new ProbeModel(this, {
+      'n': 'Probe',
+      'P': {
+        'x': 1,
+        'y': 1
+      },
+      'o': {
+        'x': 1,
+        'y': 1,
+        'z': 90
+      },
+      'N': {
+        'width': 2
+      }
+    }));
   }
 
   @action
-  positionToTop(index) {
+  updateBlueprint(bp) {
+    const parsedBP = JSON.parse(bp.replace(/'/g, '"'));
+
+    this.parts = parsedBP.parts.map(p => new ProbeModel(this, p))
   }
 }
 

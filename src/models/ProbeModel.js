@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import {action, computed, observable, toJS} from 'mobx';
 import { BLOC_SIZE } from './constants';
 import LionSrc from '../lion.png'
 
@@ -15,11 +15,11 @@ export default class ProbeModel {
   @observable N;
   @observable finished = false;
 
-  constructor(partsStore, posX, posY, scaleX, scaleY, orientation, scaleBoth) {
+  constructor(partsStore, probeData) {
     this.partsStore = partsStore;
-    this.P = { x: posX, y: posY };
-    this.o = { x: scaleX, y: scaleY, z: orientation };
-    this.N = { width: scaleBoth }; // todo: check if this parameter actually scale in both direction
+    this.P = probeData.P;
+    this.o = probeData.o;
+    this.N = probeData.N; // todo: check if this parameter actually scale in both direction
   };
 
   @computed
@@ -31,6 +31,14 @@ export default class ProbeModel {
       N: this.N
     }
   }
+
+  @computed
+  get bluePrint() {
+    const json = JSON.stringify(this.bluePrintData, null, 2)
+
+    return json.replace(/"/g, "'")
+  }
+
 
   @computed
   get name() {
@@ -74,6 +82,6 @@ export default class ProbeModel {
 
   @action
   remove() {
-    this.partsStore.remove(this);
+    this.partsStore.parts.remove(this);
   }
 }
