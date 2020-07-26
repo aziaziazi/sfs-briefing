@@ -1,11 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import Part from './Part';
+import {withPartList} from "../models/PartsListModel";
 
+@withPartList
 @observer
 class PartsList extends React.Component {
   render() {
-
     return (
       <div>
         <button onClick={() => this.props.store.addProbe()}>add probe</button>
@@ -14,7 +15,7 @@ class PartsList extends React.Component {
         <div>
           Parts: {
             this.props.store.parts.map((p) => {
-              return <Part key={p.id} part={p}>{p.id}</Part>;
+              return <Part key={p.id} part={p} />;
             })
           }
         </div>
