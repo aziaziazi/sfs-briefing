@@ -1,11 +1,11 @@
-import {action, computed, observable, toJS} from 'mobx';
-import { BLOC_SIZE } from './constants';
-import LionSrc from '../lion.png'
+import {action, computed, observable} from 'mobx';
+import {BLOC_SIZE} from './constants';
+import probeSrc from '../assets/parts/probe.png'
 
 export default class ProbeModel {
   partsStore; // keep this line ?
   n = 'Probe';
-  img = LionSrc;
+  img = probeSrc;
   id = Math.random();
   originalSizeX = 2 * BLOC_SIZE;
   originalSizeY = BLOC_SIZE;
@@ -47,12 +47,12 @@ export default class ProbeModel {
 
   @computed
   get position() {
-    return { x: this.P.x, y: this.P.y };
+    return {x: this.P.x * BLOC_SIZE, y: this.P.y * BLOC_SIZE};
   }
 
   @computed
   get orientation() {
-    return t.o.z;
+    return this.o.z;
   }
 
   @computed
@@ -62,12 +62,12 @@ export default class ProbeModel {
     const scaleBoth = this.N.width;
     const width = this.originalSizeX * scaleX * scaleBoth;
     const height = this.originalSizeY * scaleY * scaleBoth;
-    return { width, height };
+    return {width, height};
   }
 
   @action
   move(x, y) {
-    this.P = { x, y };
+    this.P = {x, y};
   };
 
   @action
