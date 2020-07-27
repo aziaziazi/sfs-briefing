@@ -20,12 +20,12 @@ export default class PartsListModel {
       'n': 'Probe',
       'P': {
         'x': 1,
-        'y': 1
+        'y': 0
       },
       'o': {
         'x': 1,
         'y': 1,
-        'z': 90
+        'z': 0
       },
       'N': {
         'width': 2

@@ -14,6 +14,8 @@ const Part = ({p}) => {
       image={image}
       x={p.position.x}
       y={p.position.y}
+      offsetX={p.offset.x}
+      offsetY={p.offset.y}
       width={p.size.width}
       height={p.size.height}
       rotation={p.orientation}
@@ -41,11 +43,13 @@ const Canvas = observer(() => {
   const partListStore = usePartList();
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={500} height={400} scaleY={-1} offsetY={400}>
       <PartsListProvider partListStore={partListStore}>
         <Layer>
           <Background/>
-          {partListStore.parts.map(p => <Part key={p.id} p={p}/>)}
+        </Layer>
+        <Layer>
+          {partListStore.parts.map((p, i) => <Part key={i} p={p}/>)}
         </Layer>
       </PartsListProvider>
     </Stage>

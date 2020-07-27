@@ -6,9 +6,9 @@ export default class ProbeModel {
   partsStore; // keep this line ?
   n = 'Probe';
   img = probeSrc;
-  id = Math.random();
-  originalSizeX = 2 * BLOC_SIZE;
-  originalSizeY = BLOC_SIZE;
+  xOffsetRatio = 0.5;
+  yOffsetRatio = 0;
+
   @observable title;
   @observable P;
   @observable o;
@@ -47,7 +47,10 @@ export default class ProbeModel {
 
   @computed
   get position() {
-    return {x: this.P.x * BLOC_SIZE, y: this.P.y * BLOC_SIZE};
+    return {
+      x: this.P.x * BLOC_SIZE,
+      y: this.P.y * BLOC_SIZE
+    };
   }
 
   @computed
@@ -59,10 +62,20 @@ export default class ProbeModel {
   get size() {
     const scaleX = this.o.x;
     const scaleY = this.o.y;
-    const scaleBoth = this.N.width;
-    const width = this.originalSizeX * scaleX * scaleBoth;
-    const height = this.originalSizeY * scaleY * scaleBoth;
-    return {width, height};
+    const widthRatio = this.N.width;
+
+    return {
+      width: BLOC_SIZE * scaleX * widthRatio,
+      height: BLOC_SIZE * scaleY
+    };
+  }
+
+  @computed
+  get offset() {
+    return {
+      x: this.xOffsetRatio * this.size.width,
+      y: this.yOffsetRatio * this.size.height
+    }
   }
 
   @action
