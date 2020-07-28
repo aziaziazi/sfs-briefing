@@ -34,10 +34,8 @@ export default class PartsListModel {
   }
 
   @action
-  updateBlueprint(bp) {
-    const parsedBP = JSON.parse(bp.replace(/'/g, '"'));
-
-    this.parts = parsedBP.parts.map(p => new ProbeModel(this, p))
+  updateBlueprint(newBlueprint) {
+    this.parts = newBlueprint.parts.map(p => new ProbeModel(this, p))
   }
 }
 
