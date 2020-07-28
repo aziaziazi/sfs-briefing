@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react";
-import {usePartList} from "../models/PartsListModel";
 import styled from "styled-components";
+import {useStore} from "../stores";
 
 const BlueprintArea = styled.textarea`
   height: 200px;
@@ -11,8 +11,8 @@ const BlueprintArea = styled.textarea`
   border: 1px solid ${p => p.isInvalid ? 'red' : 'black'}
 `;
 
-const Code = observer(() => {
-  const partListStore = usePartList();
+export const Code = observer(() => {
+  const store = useStore();
   const [invalidEdition, setInvalidEdition] = useState(null);
 
   const handleEdit = e => {
@@ -20,7 +20,7 @@ const Code = observer(() => {
 
     try {
       const parsed = JSON.parse(value.replace(/'/g, '"'));
-      partListStore.updateBlueprint(parsed);
+      store.canvas.updateBlueprint(parsed);
 
       if (invalidEdition) setInvalidEdition(null);
     } catch (err) {
@@ -32,13 +32,11 @@ const Code = observer(() => {
     <div>
       <BlueprintArea
         onChange={handleEdit}
-        value={invalidEdition || partListStore.bluePrint}
+        value={invalidEdition || store.canvas.bluePrint}
         isInvalid={invalidEdition}
       />
+      <button onClick={() => store.canvas.addDefaultProbe()}>add probe</button>
       {invalidEdition && <button onClick={() => setInvalidEdition(null)}>handleBackToValid</button>}
-      <button onClick={() => partListStore.addProbe()}>add probe</button>
     </div>
   )
 });
-
-export default Code;

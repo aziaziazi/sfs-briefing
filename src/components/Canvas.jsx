@@ -1,10 +1,11 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useRef, useState} from "react";
 import {observer} from "mobx-react";
 import Konva from 'konva';
 import {Image, Layer, Stage} from "react-konva";
 import useImage from "use-image";
+import probeSrc from '../assets/parts/probe.png'
 
-import {PartsListProvider, usePartList} from "../models/PartsListModel";
+import {useStore, StoreProvider, useCanvas} from "../stores";
 import backgroundPattern from '../assets/backgroundPattern.svg'
 import {BLOC_SIZE} from "../models/constants";
 
@@ -28,14 +29,16 @@ const Part = observer(({p}) => {
       rotation: p.orientation,
     }
 
+    const roundByHalfBlocSize = x => Math.round(x * 2 / BLOC_SIZE) / 2 * BLOC_SIZE;
+
     return (
       <Fragment>
         <Image
           {...sharedProps}
           ref={shadowRef}
           image={image}
-          x={Math.round(p.position.x * 2 / BLOC_SIZE) / 2 * BLOC_SIZE}
-          y={Math.round(p.position.y * 2 / BLOC_SIZE) / 2 * BLOC_SIZE}
+          x={roundByHalfBlocSize(p.position.x)}
+          y={roundByHalfBlocSize(p.position.y)}
           opacity={isDragging ? 1 : 0}
           filters={[Konva.Filters.RGBA]}
           red={255}
@@ -81,21 +84,44 @@ const Background = () => {
   )
 }
 
-const Canvas = observer(() => {
-  const partListStore = usePartList();
+export const Canvas = observer(() => {
+  const store = useCanvas();
+  const stageRef = useRef(null);
+
+  const handleDrop = e => {
+    // stageRef.current.setPointersPositions(e);
+    // const posOnStage = stageRef.current.getPointerPosition()
+    // store.addProbe(posOnStage);
+  }
 
   return (
-    <Stage width={500} height={400} scaleY={-1} offsetY={400}>
-      <PartsListProvider partListStore={partListStore}>
-        <Layer>
-          <Background/>
-        </Layer>
-        <Layer>
-          {partListStore.parts.map((p, i) => <Part key={i} p={p}/>)}
-        </Layer>
-      </PartsListProvider>
-    </Stage>
+    <Fragment>
+      <div
+        onDragOver={e => {e.preventDefault();}}
+        onDrop={handleDrop}
+      >
+        <Stage
+          ref={stageRef}
+          width={500}
+          height={400}
+          scaleY={-1}
+          offsetY={400}
+        >
+          <StoreProvider store={store}>
+            <Layer>
+              <Background/>
+            </Layer>
+            <Layer>
+              {store.canvasElements.map((p, i) => (
+                <Part
+                  key={i}
+                  p={p}
+                />
+                ))}
+            </Layer>
+          </StoreProvider>
+        </Stage>
+      </div>
+    </Fragment>
   );
 });
-
-export default Canvas;

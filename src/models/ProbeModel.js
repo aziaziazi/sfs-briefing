@@ -15,11 +15,13 @@ export default class ProbeModel {
   @observable N;
   @observable finished = false;
 
-  constructor(partsStore, probeData) {
+  constructor(partsStore, probeData, snap) {
     this.partsStore = partsStore;
     this.P = probeData.P;
     this.o = probeData.o;
-    this.N = probeData.N; // todo: check if this parameter actually scale in both direction
+    this.N = probeData.N;
+
+    if (snap) this.snapToGrid()
   };
 
   @computed
@@ -38,7 +40,6 @@ export default class ProbeModel {
 
     return json.replace(/"/g, "'")
   }
-
 
   @computed
   get name() {
