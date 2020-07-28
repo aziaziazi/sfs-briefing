@@ -80,8 +80,15 @@ export default class ProbeModel {
 
   @action
   move(x, y) {
-    this.P = {x, y};
+    this.P.x = x / BLOC_SIZE;
+    this.P.y = y / BLOC_SIZE;
   };
+
+  @action
+  snapToGrid() {
+    this.P.x = Math.round(this.P.x * 2 ) / 2;
+    this.P.y = Math.round(this.P.y * 2 ) / 2;
+  }
 
   @action
   turn(orientation) {
