@@ -1,5 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   devtool: 'eval',
@@ -9,12 +11,15 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: 'index.js',
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new HtmlWebpackPlugin({template: 'index.html'}),
+    new webpack.HotModuleReplacementPlugin(),
   ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
   resolve: {
     extensions: ['.js', '.jsx']
   },
