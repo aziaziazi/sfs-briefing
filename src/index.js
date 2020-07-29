@@ -1,11 +1,11 @@
 import React from "react";
 import { render } from "react-dom";
-import {Canvas} from './components/Canvas';
+import {Canvas} from './components/canvas/Canvas';
 import CanvasModel from './models/CanvasModel';
-import {Code} from "./components/Code";
+import {Code} from "./components/code/Code";
 import {StoreProvider} from "./stores";
 import PartListModel from "./models/PartListModel";
-import {PartList} from "./components/PartList";
+import {PartList} from "./components/partList/PartList";
 
 const store = {
   canvas: new CanvasModel(),

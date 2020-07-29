@@ -1,8 +1,8 @@
 import React from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
-import {useCanvas, usePartList} from "../stores";
-import probeSrc from "../assets/parts/probe.png";
+import {useCanvas, usePartList} from "../../stores";
+import probeSrc from "../../assets/parts/probe.png";
 
 const Wrapper = styled.div`
 `;

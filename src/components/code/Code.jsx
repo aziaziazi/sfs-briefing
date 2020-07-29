@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
-import {useStore} from "../stores";
+import {useStore} from "../../stores";
 
 const BlueprintArea = styled.textarea`
   height: 200px;

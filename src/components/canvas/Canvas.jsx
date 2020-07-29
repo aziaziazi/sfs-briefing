@@ -3,11 +3,11 @@ import {observer} from "mobx-react";
 import Konva from 'konva';
 import {Image, Layer, Stage} from "react-konva";
 import useImage from "use-image";
-import probeSrc from '../assets/parts/probe.png'
+import probeSrc from '../../assets/parts/probe.png'
 
-import {useStore, StoreProvider, useCanvas} from "../stores";
-import backgroundPattern from '../assets/backgroundPattern.svg'
-import {BLOC_SIZE} from "../models/constants";
+import {useStore, StoreProvider, useCanvas} from "../../stores";
+import backgroundPattern from '../../assets/backgroundPattern.svg'
+import {BLOC_SIZE} from "../../models/constants";
 
 const Part = observer(({p}) => {
     const [image] = useImage(p.img);
