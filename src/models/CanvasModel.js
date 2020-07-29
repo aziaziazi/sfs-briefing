@@ -17,14 +17,14 @@ export default class CanvasModel {
 
   @action
   addProbe({x, y}) {
-    const posX = x / BLOC_SIZE;
-    const posY = (400 - y) / BLOC_SIZE;
+    //const posX = x / BLOC_SIZE;
+    //const posY = (400 - y) / BLOC_SIZE;
 
     this.canvasElements.push(new ProbeModel(this, {
       'n': 'Probe',
       'P': {
-        'x': posX,
-        'y': posY
+        'x': x,
+        'y': y
       },
       'o': {
         'x': 1,
@@ -37,9 +37,10 @@ export default class CanvasModel {
     }, true));
   }
 
-  @action
+  @action.bound
   addDefaultProbe() {
-    this.addProbe({x: 0, y: 400});
+    console.log("this => ", this);
+    this.addProbe({x: 0, y: 0});
   }
 
   @action

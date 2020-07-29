@@ -7,24 +7,9 @@ import probeSrc from "../../assets/parts/probe.png";
 const Wrapper = styled.div`
 `;
 
-const Part = observer(({part}) => {
+const Part = observer(({part, dragPart}) => {
   const canvasStore = useCanvas();
-
-  const handleSlideNew = e => {
-    // const elementPos = e.target.getBoundingClientRect()
-    // const elementPosX = e.target.offsetLeft;
-    // const elementPosY = e.target.offsetTop;
-    // const mousePosX = e.pageX;
-    // const mousePosY = e.pageY;
-    // const mouseOffset = {
-    //   x: mousePosX - elementPosX,
-    //   y: mousePosY - elementPosY
-    // }
-  }
-
-  const newPartOnCenter = () => {
-    canvasStore.addDefaultProbe()
-  }
+  const addDefaultProbe = () => canvasStore.addDefaultProbe();
 
   return (
     <img
@@ -32,18 +17,26 @@ const Part = observer(({part}) => {
       alt={`${part.name} element`}
       width={200}
       height={100}
-      onClick={newPartOnCenter}
-      onDragStart={handleSlideNew}
+      onClick={addDefaultProbe}
+      onDragStart={e => dragPart(e, part, addDefaultProbe)}
     />
   )
-})
+});
 
 export const PartList = observer(() => {
   const partList = usePartList();
 
   return (
     <Wrapper>
-      {partList.parts.map(p => <Part part={p}>{p.name}</Part>)}
+      {partList.parts.map((p, i) => (
+        <Part
+          key={i}
+          part={p}
+          dragPart={partList.dragPart}
+        >
+          {p.name}
+        </Part>
+      ))}
     </Wrapper>
   )
 });

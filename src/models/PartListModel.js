@@ -1,5 +1,5 @@
 import React from "react";
-import {observable} from 'mobx';
+import {action, observable} from 'mobx';
 
 import ProbeModel from './ProbeModel';
 
@@ -21,4 +21,35 @@ export default class PartListModel {
       }
     })
   ];
+
+  @action
+  dragPart(e, part, addDefaultProbe) {
+    console.log("dragPart action");
+    console.log("e => ", e);
+    console.log("part => ", part);
+    const elementRect = e.target.getBoundingClientRect();
+
+    const elementSize = part.size;
+    const elementOffset = part.offset;
+    const elementPos = {
+      x: e.target.offsetLeft,
+      y: e.target.offsetTop
+    };
+    const mousePos = {
+      x: e.pageX,
+      y: e.pageY
+    };
+
+    const mouseOffset = {
+      x: mousePos.x - elementPos.x,
+      y: mousePos.y - elementPos.y
+    }
+
+    console.log({elementSize});
+    console.log({elementOffset});
+    console.log({elementPos});
+    console.log({mousePos});
+    console.log("mouseOffset => ", mouseOffset);
+    addDefaultProbe()
+  }
 }
