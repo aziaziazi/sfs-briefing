@@ -1,4 +1,6 @@
 import React, {createContext} from "react";
+import CanvasModel from "./models/CanvasModel";
+import PartListModel from "./models/PartListModel";
 
 const StoreContext = createContext();
 
@@ -8,12 +10,11 @@ export const StoreProvider = ({children, store}) => {
   );
 };
 
-/* Hook to use store in any functional component */
+export const store = {
+  canvas: new CanvasModel(),
+  partList: new PartListModel()
+};
+
 export const useStore = () => React.useContext(StoreContext);
 export const useCanvas = () => React.useContext(StoreContext).canvas;
 export const usePartList = () => React.useContext(StoreContext).partList;
-
-/* HOC to inject store to any functional or class component */
-export const withStores = (Component) => (props) => {
-  return <Component {...props} store={useCanvas()}/>;
-};

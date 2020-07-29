@@ -20,7 +20,7 @@ export default class CanvasModel {
     //const posX = x / BLOC_SIZE;
     //const posY = (400 - y) / BLOC_SIZE;
 
-    this.canvasElements.push(new ProbeModel(this, {
+    this.canvasElements.push(new ProbeModel({
       'n': 'Probe',
       'P': {
         'x': x,
@@ -37,14 +37,18 @@ export default class CanvasModel {
     }, true));
   }
 
-  @action.bound
+  @action
   addDefaultProbe() {
-    console.log("this => ", this);
     this.addProbe({x: 0, y: 0});
   }
 
   @action
   updateBlueprint(newBlueprint) {
-    this.canvasElements = newBlueprint.parts.map(p => new ProbeModel(this, p))
+    this.canvasElements = newBlueprint.parts.map(p => new ProbeModel(p))
+  }
+
+  @action
+  removePart(part) {
+    this.canvasElements.remove(part)
   }
 }

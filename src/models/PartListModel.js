@@ -5,7 +5,7 @@ import ProbeModel from './ProbeModel';
 
 export default class PartListModel {
   @observable parts = [
-    new ProbeModel(null, {
+    new ProbeModel({
       'n': 'Probe',
       'P': {
         'x': 0,

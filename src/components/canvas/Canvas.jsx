@@ -9,7 +9,7 @@ import {useStore, StoreProvider, useCanvas} from "../../stores";
 import backgroundPattern from '../../assets/backgroundPattern.svg'
 import {BLOC_SIZE} from "../../models/constants";
 
-const Part = observer(({p}) => {
+const Part = observer(({p, handleRemove}) => {
     const [image] = useImage(p.img);
     const [isDragging, setDragging] = useState(false);
     const shadowRef = React.useRef();
@@ -51,8 +51,8 @@ const Part = observer(({p}) => {
           opacity={1}
           x={p.position.x}
           y={p.position.y}
-          onClick={() => p.remove()}
-          onTouch={() => p.remove()}
+          onClick={() => handleRemove(p)}
+          onTouch={() => handleRemove(p)}
           draggable={true}
           onDragMove={(e) => {
             setDragging(true)
@@ -94,6 +94,8 @@ export const Canvas = observer(() => {
     // store.addProbe(posOnStage);
   }
 
+  const handleRemove = part => store.removePart(part);
+
   return (
     <Fragment>
       <div
@@ -116,6 +118,7 @@ export const Canvas = observer(() => {
                 <Part
                   key={i}
                   p={p}
+                  handleRemove={handleRemove}
                 />
                 ))}
             </Layer>

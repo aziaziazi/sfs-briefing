@@ -3,7 +3,6 @@ import {BLOC_SIZE} from './constants';
 import probeSrc from '../assets/parts/probe.png'
 
 export default class ProbeModel {
-  partsStore; // keep this line ?
   n = 'Probe';
   img = probeSrc;
   xOffsetRatio = 0.5;
@@ -15,8 +14,7 @@ export default class ProbeModel {
   @observable N;
   @observable finished = false;
 
-  constructor(partsStore, probeData, snap) {
-    this.partsStore = partsStore;
+  constructor(probeData, snap) {
     this.P = probeData.P;
     this.o = probeData.o;
     this.N = probeData.N;
@@ -99,10 +97,5 @@ export default class ProbeModel {
   @action
   resize(orientation) {
     this.o.z = this.o.z + orientation;
-  }
-
-  @action
-  remove() {
-    this.partsStore.parts.remove(this);
   }
 }
