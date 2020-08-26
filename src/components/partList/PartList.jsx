@@ -3,6 +3,7 @@ import {observer} from "mobx-react";
 import styled from "styled-components";
 import {useCanvas, usePartList} from "../../stores";
 import probeSrc from "../../assets/parts/probe.png";
+import {SCALE} from "../canvas/Canvas";
 
 const Wrapper = styled.div`
 `;
@@ -15,8 +16,8 @@ const Part = observer(({part, dragPart}) => {
     <img
       src={probeSrc}
       alt={`${part.name} element`}
-      width={200}
-      height={100}
+      width={2 * SCALE}
+      height={1 * SCALE}
       onClick={addDefaultProbe}
       onDragStart={e => dragPart(e, part, addDefaultProbe)}
     />

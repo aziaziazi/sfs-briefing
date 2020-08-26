@@ -1,5 +1,4 @@
 import {action, computed, observable} from 'mobx';
-import {BLOC_SIZE} from './constants';
 import probeSrc from '../assets/parts/probe.png'
 
 export default class ProbeModel {
@@ -47,8 +46,8 @@ export default class ProbeModel {
   @computed
   get position() {
     return {
-      x: this.P.x * BLOC_SIZE,
-      y: this.P.y * BLOC_SIZE
+      x: this.P.x,
+      y: this.P.y
     };
   }
 
@@ -64,8 +63,8 @@ export default class ProbeModel {
     const widthRatio = this.N.width;
 
     return {
-      width: BLOC_SIZE * scaleX * widthRatio,
-      height: BLOC_SIZE * scaleY
+      width: scaleX * widthRatio,
+      height: scaleY
     };
   }
 
@@ -79,8 +78,8 @@ export default class ProbeModel {
 
   @action
   move(x, y) {
-    this.P.x = x / BLOC_SIZE;
-    this.P.y = y / BLOC_SIZE;
+    this.P.x = x;
+    this.P.y = y;
   };
 
   @action

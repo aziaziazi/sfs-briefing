@@ -7,7 +7,8 @@ import probeSrc from '../../assets/parts/probe.png'
 
 import {useStore, StoreProvider, useCanvas} from "../../stores";
 import backgroundPattern from '../../assets/backgroundPattern.svg'
-import {BLOC_SIZE} from "../../models/constants";
+
+export const SCALE = 100
 
 const Part = observer(({p, handleRemove}) => {
     const [image] = useImage(p.img);
@@ -29,7 +30,7 @@ const Part = observer(({p, handleRemove}) => {
       rotation: p.orientation,
     }
 
-    const roundByHalfBlocSize = x => Math.round(x * 2 / BLOC_SIZE) / 2 * BLOC_SIZE;
+    const roundByHalfBlocSize = x => Math.round(x * 2) / 2;
 
     return (
       <Fragment>
@@ -56,6 +57,7 @@ const Part = observer(({p, handleRemove}) => {
           draggable={true}
           onDragMove={(e) => {
             setDragging(true)
+            //p.move(e.target.attrs.x, e.target.attrs.y);
             p.move(e.target.attrs.x, e.target.attrs.y);
           }}
           onDragEnd={(e) => {
@@ -69,22 +71,31 @@ const Part = observer(({p, handleRemove}) => {
   }
 )
 
-const Background = () => {
+const Background = ({scale, stageWidth, stageHeight}) => {
   const [backgroundImage] = useImage(backgroundPattern)
+  const offset = 1
+                  / 2  // two (svg contains two lines)
+                  / 2; // two (offset half of size)
+  const svgSize = 100;
 
   return (
     <Image
       fillPatternImage={backgroundImage}
-      opacity={0.5}
-      x={-75}
-      y={-75}
-      width={575}
-      height={575}
+      opacity={1}
+      x={- offset}
+      y={- offset}
+      scaleX={1 / scale}
+      scaleY={1 / scale}
+      width={(stageWidth + offset) * scale}
+      height={(stageHeight + offset) * scale}
+      fillPatternScale={{x: scale / svgSize, y: scale / svgSize}}
     />
   )
 }
 
 export const Canvas = observer(() => {
+  const stageWidth = 3;
+  const stageHeight = 3;
   const store = useCanvas();
   const stageRef = useRef(null);
 
@@ -104,14 +115,15 @@ export const Canvas = observer(() => {
       >
         <Stage
           ref={stageRef}
-          width={500}
-          height={400}
-          scaleY={-1}
-          offsetY={400}
+          width={SCALE * stageWidth}
+          height={SCALE * stageHeight}
+          scaleX={SCALE}
+          scaleY={SCALE * -1}
+          offsetY={stageHeight}
         >
           <StoreProvider store={store}>
             <Layer>
-              <Background/>
+              <Background scale={SCALE} stageWidth={stageWidth} stageHeight={stageHeight}/>
             </Layer>
             <Layer>
               {store.canvasElements.map((p, i) => (

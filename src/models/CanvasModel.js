@@ -2,7 +2,6 @@ import React from "react";
 import {action, computed, observable, toJS} from 'mobx';
 
 import ProbeModel from './ProbeModel';
-import {BLOC_SIZE} from "./constants";
 
 export default class CanvasModel {
   @observable canvasElements = [];
@@ -17,9 +16,6 @@ export default class CanvasModel {
 
   @action
   addProbe({x, y}) {
-    //const posX = x / BLOC_SIZE;
-    //const posY = (400 - y) / BLOC_SIZE;
-
     this.canvasElements.push(new ProbeModel({
       'n': 'Probe',
       'P': {
