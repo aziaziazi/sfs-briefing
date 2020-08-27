@@ -8,18 +8,20 @@ import {SCALE} from "../canvas/Canvas";
 const Wrapper = styled.div`
 `;
 
-const Part = observer(({part, dragPart}) => {
+const Part = observer(({part}) => {
   const canvasStore = useCanvas();
-  const addDefaultProbe = () => canvasStore.addDefaultProbe();
+
+  const addPart = () => {
+    canvasStore.addPart(part.jsData);
+  };
 
   return (
     <img
       src={probeSrc}
       alt={`${part.name} element`}
-      width={2 * SCALE}
-      height={1 * SCALE}
-      onClick={addDefaultProbe}
-      onDragStart={e => dragPart(e, part, addDefaultProbe)}
+      width={part.size.width * SCALE}
+      height={part.size.height * SCALE}
+      onClick={addPart}
     />
   )
 });
@@ -33,7 +35,6 @@ export const PartList = observer(() => {
         <Part
           key={i}
           part={p}
-          dragPart={partList.dragPart}
         >
           {p.name}
         </Part>

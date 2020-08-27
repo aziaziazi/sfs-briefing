@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
-import {useStore} from "../../stores";
+import {useCanvas, useStore} from "../../stores";
+import {parts} from "../../models/parts/ProbeModel";
 
 const BlueprintArea = styled.textarea`
-  height: 200px;
+  flex-shrink: 0;
+  height: calc(100vh - 16px);
+  box-sizing: border-box;
   width: 200px;
   font-family: monospace;
   outline: none;
@@ -12,7 +15,8 @@ const BlueprintArea = styled.textarea`
 `;
 
 export const Code = observer(() => {
-  const store = useStore();
+  const canvasStore = useCanvas();
+
   const [invalidEdition, setInvalidEdition] = useState(null);
 
   const handleEdit = e => {
@@ -20,7 +24,7 @@ export const Code = observer(() => {
 
     try {
       const parsed = JSON.parse(value.replace(/'/g, '"'));
-      store.canvas.updateBlueprint(parsed);
+      canvasStore.updateBlueprint(parsed);
 
       if (invalidEdition) setInvalidEdition(null);
     } catch (err) {
@@ -29,14 +33,14 @@ export const Code = observer(() => {
   };
 
   return (
-    <div>
+    <Fragment>
       <BlueprintArea
         onChange={handleEdit}
-        value={invalidEdition || store.canvas.bluePrint}
+        value={invalidEdition || canvasStore.bluePrint}
         isInvalid={invalidEdition}
       />
-      <button onClick={() => store.canvas.addDefaultProbe()}>add probe</button>
+      <button onClick={() => canvasStore.addPart(parts.Probe)}>add probe</button>
       {invalidEdition && <button onClick={() => setInvalidEdition(null)}>handleBackToValid</button>}
-    </div>
+    </Fragment>
   )
 });

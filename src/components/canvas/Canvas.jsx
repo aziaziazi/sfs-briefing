@@ -57,7 +57,6 @@ const Part = observer(({p, handleRemove}) => {
           draggable={true}
           onDragMove={(e) => {
             setDragging(true)
-            //p.move(e.target.attrs.x, e.target.attrs.y);
             p.move(e.target.attrs.x, e.target.attrs.y);
           }}
           onDragEnd={(e) => {
