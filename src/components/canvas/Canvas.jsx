@@ -22,10 +22,10 @@ const Part = observer(({p, handleRemove}) => {
     }, [image]);
 
     const sharedProps = {
-      offsetX: p.offset.x,
-      offsetY: p.offset.y,
-      width: p.size.width,
-      height: p.size.height,
+      offsetX: p.offset.x * SCALE,
+      offsetY: p.offset.y * SCALE,
+      width: p.size.width * SCALE,
+      height: p.size.height * SCALE,
       rotation: p.orientation,
     }
 
@@ -37,8 +37,8 @@ const Part = observer(({p, handleRemove}) => {
           {...sharedProps}
           ref={shadowRef}
           image={image}
-          x={roundByHalfBlocSize(p.position.x)}
-          y={roundByHalfBlocSize(p.position.y)}
+          x={roundByHalfBlocSize(p.position.x) * SCALE}
+          y={roundByHalfBlocSize(p.position.y) * SCALE}
           opacity={isDragging ? 1 : 0}
           filters={[Konva.Filters.RGBA]}
           red={255}
@@ -49,18 +49,18 @@ const Part = observer(({p, handleRemove}) => {
           {...sharedProps}
           image={image}
           opacity={1}
-          x={p.position.x}
-          y={p.position.y}
+          x={p.position.x * SCALE}
+          y={p.position.y * SCALE}
           onClick={() => handleRemove(p)}
           onTouch={() => handleRemove(p)}
           draggable={true}
           onDragMove={(e) => {
             setDragging(true)
-            p.move(e.target.attrs.x, e.target.attrs.y);
+            p.move(e.target.attrs.x / SCALE, e.target.attrs.y / SCALE);
           }}
           onDragEnd={(e) => {
             setDragging(false);
-            p.move(e.target.attrs.x, e.target.attrs.y);
+            p.move(e.target.attrs.x / SCALE, e.target.attrs.y / SCALE);
             p.snapToGrid();
           }}
         />
@@ -69,31 +69,27 @@ const Part = observer(({p, handleRemove}) => {
   }
 )
 
-const Background = ({scale, stageWidth, stageHeight}) => {
+const Background = ({stageWidth, stageHeight}) => {
   const [backgroundImage] = useImage(backgroundPattern)
   const offset = 1
                   / 2  // two (svg contains two lines)
                   / 2; // two (offset half of size)
-  const svgSize = 100;
 
   return (
     <Image
       fillPatternImage={backgroundImage}
       opacity={1}
-      x={- offset}
-      y={- offset}
-      scaleX={1 / scale}
-      scaleY={1 / scale}
-      width={(stageWidth + offset) * scale}
-      height={(stageHeight + offset) * scale}
-      fillPatternScale={{x: scale / svgSize, y: scale / svgSize}}
+      x={- offset * SCALE}
+      y={- offset * SCALE}
+      width={(stageWidth + offset) * SCALE}
+      height={(stageHeight + offset) * SCALE}
     />
   )
 }
 
 export const Canvas = observer(() => {
   const stageWidth = 3;
-  const stageHeight = 3;
+  const stageHeight = 5;
   const store = useCanvas();
   const stageRef = useRef(null);
 
@@ -105,13 +101,13 @@ export const Canvas = observer(() => {
         ref={stageRef}
         width={SCALE * stageWidth}
         height={SCALE * stageHeight}
-        scaleX={SCALE}
-        scaleY={SCALE * -1}
-        offsetY={stageHeight}
+        scaleX={1}
+        scaleY={-1}
+        offsetY={stageHeight * SCALE}
       >
         <StoreProvider store={store}>
           <Layer>
-            <Background scale={SCALE} stageWidth={stageWidth} stageHeight={stageHeight}/>
+            <Background stageWidth={stageWidth} stageHeight={stageHeight}/>
           </Layer>
           <Layer>
             {store.canvasElements.map((p, i) => (
