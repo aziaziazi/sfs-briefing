@@ -1,8 +1,10 @@
 import {action, computed, observable, toJS} from 'mobx';
 import probeSrc from '../../assets/parts/probe.png'
+import fuelTankSrc from '../../assets/parts/fuel-tank.png'
+import ionEngineSrc from '../../assets/parts/ion-engine.png'
 
 export const parts = {
-  'Probe': {
+  Probe: {
     n: 'Probe',
     P: {
       x: 0,
@@ -20,24 +22,42 @@ export const parts = {
       width: 2,
     }
   },
-  'Probe2': {
-    n: 'Probe2',
+  FuelTank: {
+    n: 'FuelTank',
     P: {
       x: 0,
       y: 0,
     },
-    img: probeSrc,
+    img: fuelTankSrc,
     xOffsetRatio: 0.5,
     yOffsetRatio: 0,
     o: {
-      x: 1.5,
-      y: 1.5,
+      x: 1,
+      y: 1,
       z: 0,
     },
     N: {
       width: 2,
-    }
+    },
   },
+  IonEngine: {
+    n: 'IonEngine',
+    P: {
+      x: 0,
+      y: 0,
+    },
+    img: ionEngineSrc,
+    xOffsetRatio: 0.5,
+    yOffsetRatio: 0,
+    o: {
+      x: 1,
+      y: 1,
+      z: 0,
+    },
+    N: {
+      width: 2,
+    },
+  }
 }
 
 export default class ProbeModel {

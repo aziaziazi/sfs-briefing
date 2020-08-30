@@ -5,6 +5,8 @@ import ProbeModel, {parts} from './parts/ProbeModel';
 
 export default class PartListModel {
   @observable parts = [
-    new ProbeModel(parts.Probe2)
+    new ProbeModel(parts.Probe),
+    new ProbeModel(parts.FuelTank),
+    new ProbeModel(parts.IonEngine),
   ];
 }

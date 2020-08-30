@@ -17,11 +17,12 @@ const Part = observer(({part}) => {
 
   return (
     <img
-      src={probeSrc}
+      src={part.img}
       alt={`${part.name} element`}
       width={part.size.width * SCALE}
       height={part.size.height * SCALE}
       onClick={addPart}
+      style={{imageRendering: 'pixelated'}}
     />
   )
 });
