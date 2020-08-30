@@ -1,12 +1,12 @@
 import React from "react";
-import {action, observable} from 'mobx';
+import {observable} from 'mobx';
 
-import ProbeModel, {parts} from './parts/ProbeModel';
+import PartModel, {parts} from './PartModel';
 
 export default class PartListModel {
   @observable parts = [
-    new ProbeModel(parts.Probe),
-    new ProbeModel(parts.FuelTank),
-    new ProbeModel(parts.IonEngine),
+    new PartModel(parts.Probe),
+    new PartModel(parts.FuelTank),
+    new PartModel(parts.IonEngine),
   ];
 }

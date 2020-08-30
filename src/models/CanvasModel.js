@@ -1,7 +1,7 @@
 import React from "react";
 import {action, computed, observable} from 'mobx';
 
-import ProbeModel from './parts/ProbeModel';
+import PartModel from './PartModel';
 
 export default class CanvasModel {
   @observable canvasElements = [];
@@ -16,12 +16,12 @@ export default class CanvasModel {
 
   @action
   addPart(partData) {
-    this.canvasElements.push(new ProbeModel({...partData}));
+    this.canvasElements.push(new PartModel({...partData}));
   }
 
   @action
   updateBlueprint(newBlueprint) {
-    this.canvasElements = newBlueprint.parts.map(p => new ProbeModel(p))
+    this.canvasElements = newBlueprint.parts.map(p => new PartModel(p))
   }
 
   @action

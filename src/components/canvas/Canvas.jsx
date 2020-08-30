@@ -3,9 +3,8 @@ import {observer} from "mobx-react";
 import Konva from 'konva';
 import {Image, Layer, Stage} from "react-konva";
 import useImage from "use-image";
-import probeSrc from '../../assets/parts/probe.png'
 
-import {useStore, StoreProvider, useCanvas} from "../../stores";
+import {StoreProvider, useCanvas} from "../../stores";
 import backgroundPattern from '../../assets/backgroundPattern.svg'
 
 export const SCALE = 100
@@ -98,44 +97,33 @@ export const Canvas = observer(() => {
   const store = useCanvas();
   const stageRef = useRef(null);
 
-  const handleDrop = e => {
-    // stageRef.current.setPointersPositions(e);
-    // const posOnStage = stageRef.current.getPointerPosition()
-    // store.addProbe(posOnStage);
-  }
-
   const handleRemove = part => store.removePart(part);
 
   return (
     <Fragment>
-      <div
-        onDragOver={e => {e.preventDefault();}}
-        onDrop={handleDrop}
+      <Stage
+        ref={stageRef}
+        width={SCALE * stageWidth}
+        height={SCALE * stageHeight}
+        scaleX={SCALE}
+        scaleY={SCALE * -1}
+        offsetY={stageHeight}
       >
-        <Stage
-          ref={stageRef}
-          width={SCALE * stageWidth}
-          height={SCALE * stageHeight}
-          scaleX={SCALE}
-          scaleY={SCALE * -1}
-          offsetY={stageHeight}
-        >
-          <StoreProvider store={store}>
-            <Layer>
-              <Background scale={SCALE} stageWidth={stageWidth} stageHeight={stageHeight}/>
-            </Layer>
-            <Layer>
-              {store.canvasElements.map((p, i) => (
-                <Part
-                  key={i}
-                  p={p}
-                  handleRemove={handleRemove}
-                />
-                ))}
-            </Layer>
-          </StoreProvider>
-        </Stage>
-      </div>
+        <StoreProvider store={store}>
+          <Layer>
+            <Background scale={SCALE} stageWidth={stageWidth} stageHeight={stageHeight}/>
+          </Layer>
+          <Layer>
+            {store.canvasElements.map((p, i) => (
+              <Part
+                key={i}
+                p={p}
+                handleRemove={handleRemove}
+              />
+              ))}
+          </Layer>
+        </StoreProvider>
+      </Stage>
     </Fragment>
   );
 });

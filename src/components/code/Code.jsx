@@ -1,8 +1,8 @@
 import React, {Fragment, useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
-import {useCanvas, useStore} from "../../stores";
-import {parts} from "../../models/parts/ProbeModel";
+import {useCanvas} from "../../stores";
+import {parts} from "../../models/PartModel";
 
 const BlueprintArea = styled.textarea`
   flex-shrink: 0;

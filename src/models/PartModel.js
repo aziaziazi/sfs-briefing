@@ -1,7 +1,7 @@
 import {action, computed, observable, toJS} from 'mobx';
-import probeSrc from '../../assets/parts/probe.png'
-import fuelTankSrc from '../../assets/parts/fuel-tank.png'
-import ionEngineSrc from '../../assets/parts/ion-engine.png'
+import probeSrc from '../assets/parts/probe.png'
+import fuelTankSrc from '../assets/parts/fuel-tank.png'
+import ionEngineSrc from '../assets/parts/ion-engine.png'
 
 export const parts = {
   Probe: {
@@ -60,20 +60,20 @@ export const parts = {
   }
 }
 
-export default class ProbeModel {
+export default class PartModel {
   @observable P;
   @observable o;
   @observable N;
 
-  constructor(probeData) {
-    const defaultValues = parts[probeData.n]
-    this.n = probeData.n;
-    this.P = probeData.P;
-    this.o = probeData.o;
-    this.N = probeData.N;
-    this.img = probeData.img || defaultValues.img;
-    this.xOffsetRatio = probeData.xOffsetRatio || defaultValues.xOffsetRatio;
-    this.yOffsetRatio = probeData.yOffsetRatio || defaultValues.yOffsetRatio;
+  constructor(partData) {
+    const defaultValues = parts[partData.n]
+    this.n = partData.n;
+    this.P = partData.P;
+    this.o = partData.o;
+    this.N = partData.N;
+    this.img = partData.img || defaultValues.img;
+    this.xOffsetRatio = partData.xOffsetRatio || defaultValues.xOffsetRatio;
+    this.yOffsetRatio = partData.yOffsetRatio || defaultValues.yOffsetRatio;
   };
 
   @computed
