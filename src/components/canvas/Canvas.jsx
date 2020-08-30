@@ -19,7 +19,7 @@ const Part = observer(({p, handleRemove}) => {
         shadowRef.current.cache();
         shadowRef.current.getLayer().batchDraw();
       }
-    }, [image]);
+    }, [image, p.size]);
 
     const sharedProps = {
       offsetX: p.offset.x * SCALE,
