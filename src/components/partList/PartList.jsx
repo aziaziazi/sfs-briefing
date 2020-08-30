@@ -5,10 +5,13 @@ import {useCanvas, usePartList} from "../../stores";
 import {SCALE} from "../canvas/Canvas";
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledPart = styled.img`
   image-rendering: pixelated;
+  margin-bottom: 1rem;
 `;
 
 const Part = observer(({part}) => {

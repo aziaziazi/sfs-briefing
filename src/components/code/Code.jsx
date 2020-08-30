@@ -2,7 +2,6 @@ import React, {Fragment, useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
 import {useCanvas} from "../../stores";
-import {parts} from "../../models/PartModel";
 
 const BlueprintArea = styled.textarea`
   flex-shrink: 0;
@@ -12,6 +11,10 @@ const BlueprintArea = styled.textarea`
   font-family: monospace;
   outline: none;
   border: 1px solid ${p => p.isInvalid ? 'red' : 'black'}
+`;
+
+const ResetButton = styled.button`
+  position: absolute;
 `;
 
 export const Code = observer(() => {
@@ -39,8 +42,7 @@ export const Code = observer(() => {
         value={invalidEdition || canvasStore.bluePrint}
         isInvalid={invalidEdition}
       />
-      <button onClick={() => canvasStore.addPart(parts.Probe)}>add probe</button>
-      {invalidEdition && <button onClick={() => setInvalidEdition(null)}>handleBackToValid</button>}
+      {invalidEdition && <ResetButton onClick={() => setInvalidEdition(null)}>back to previous valid code</ResetButton>}
     </Fragment>
   )
 });
