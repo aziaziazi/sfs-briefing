@@ -27,36 +27,36 @@ const Part = observer(({p, handleRemove}) => {
       width: p.size.width * SCALE,
       height: p.size.height * SCALE,
       rotation: p.orientation,
-    }
+      image: image,
+    };
 
-    const roundByHalfBlocSize = x => Math.round(x * 2) / 2;
+    const roundBy = (x, y) => Math.round(x * y) / y;
+    const roundByHalfBlocSize = x => roundBy(x, 2);
 
     return (
       <Fragment>
         <Image
           {...sharedProps}
           ref={shadowRef}
-          image={image}
+          opacity={isDragging ? 1 : 0}
           x={roundByHalfBlocSize(p.position.x) * SCALE}
           y={roundByHalfBlocSize(p.position.y) * SCALE}
-          opacity={isDragging ? 1 : 0}
           filters={[Konva.Filters.RGBA]}
           red={255}
-          green={123}
-          blue={23}
+          green={255}
+          blue={255}
         />
         <Image
           {...sharedProps}
-          image={image}
           opacity={1}
           x={p.position.x * SCALE}
           y={p.position.y * SCALE}
           onClick={() => handleRemove(p)}
           onTouch={() => handleRemove(p)}
-          draggable={true}
+          draggable
           onDragMove={(e) => {
             setDragging(true)
-            p.move(e.target.attrs.x / SCALE, e.target.attrs.y / SCALE);
+            p.move(roundBy(e.target.attrs.x, 200) / SCALE, roundBy(e.target.attrs.y, 200) / SCALE);
           }}
           onDragEnd={(e) => {
             setDragging(false);
