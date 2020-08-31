@@ -7,7 +7,7 @@ const BlueprintArea = styled.textarea`
   flex-shrink: 0;
   height: calc(100vh - 16px);
   box-sizing: border-box;
-  width: 200px;
+  width: 250px;
   font-family: monospace;
   outline: none;
   border: 1px solid ${p => p.isInvalid ? 'red' : 'black'}
