@@ -41,6 +41,8 @@ const Part = observer(({p, handleRemove}) => {
           opacity={isDragging ? 1 : 0}
           x={roundByHalfBlocSize(p.position.x) * SCALE}
           y={roundByHalfBlocSize(p.position.y) * SCALE}
+          scaleY={-1}
+          offsetY={p.size.height * SCALE}
           filters={[Konva.Filters.RGBA]}
           red={255}
           green={255}
@@ -51,6 +53,8 @@ const Part = observer(({p, handleRemove}) => {
           opacity={1}
           x={p.position.x * SCALE}
           y={p.position.y * SCALE}
+          scaleY={-1}
+          offsetY={p.size.height * SCALE}
           onClick={() => handleRemove(p)}
           onTouch={() => handleRemove(p)}
           draggable
