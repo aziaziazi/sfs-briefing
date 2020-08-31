@@ -7,7 +7,7 @@ import {store, StoreProvider} from "./stores";
 import {PartList} from "./components/partList/PartList";
 import {parts} from "./models/PartModel";
 
-store.canvas.addPart(parts.Probe);
+store.canvas.addPart(parts.Probe.bluePrint);
 
 const Wrapper = styled.div`
   display: flex;

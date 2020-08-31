@@ -5,75 +5,92 @@ import ionEngineSrc from '../assets/parts/ion-engine.png'
 
 export const parts = {
   Probe: {
-    n: 'Probe',
-    P: {
-      x: 0,
-      y: 0,
-    },
     img: probeSrc,
+    defaultSize: {x: 1, y: 1},
     xOffsetRatio: 0.5,
     yOffsetRatio: 0,
-    o: {
-      x: 1,
-      y: 1,
-      z: 0,
-    },
-    N: {
-      width: 2,
+    bluePrint: {
+      n: 'Probe',
+      P: {
+        x: 0,
+        y: 0,
+      },
+      o: {
+        x: 1,
+        y: 1,
+        z: 0,
+      },
+      N: {
+        width: 2,
+      }
     }
   },
   FuelTank: {
-    n: 'FuelTank',
-    P: {
-      x: 0,
-      y: 0,
-    },
     img: fuelTankSrc,
+    defaultSize: {x: 1, y: 1},
     xOffsetRatio: 0.5,
     yOffsetRatio: 0,
-    o: {
-      x: 1,
-      y: 1,
-      z: 0,
-    },
-    N: {
-      width: 2,
-    },
+    bluePrint: {
+      n: 'Fuel Tank',
+      P: {
+        x: 0,
+        y: 0,
+      },
+      o: {
+        x: 1,
+        y: 1,
+        z: 0,
+      },
+      N: {
+        width_original: 3,
+        width_a: 2.0,
+        width_b: 2.0,
+        height: 1.0,
+        fuel_percent: 1.0,
+      }
+    }
   },
   IonEngine: {
-    n: 'IonEngine',
-    P: {
-      x: 0,
-      y: 0,
-    },
     img: ionEngineSrc,
+    defaultSize: {x: 0.8, y: 0.5},
     xOffsetRatio: 0.5,
     yOffsetRatio: 0,
-    o: {
-      x: 1,
-      y: 1,
-      z: 0,
-    },
-    N: {
-      width: 2,
-    },
-  }
-}
+    bluePrint: {
+      n: 'Placeholder ION',
+      P: {
+        x: 0,
+        y: 0,
+      },
+      o: {
+        x: 1,
+        y: 1,
+        z: 0,
+      },
+      B: {
+        engine_on: false,
+      }
+    }
+  },
+};
 
 export default class PartModel {
   @observable P;
   @observable o;
   @observable N;
+  @observable B;
 
-  constructor(partData) {
-    const defaultValues = parts[partData.n]
-    this.n = partData.n;
-    this.P = partData.P;
-    this.o = partData.o;
-    this.N = partData.N;
-    this.img = partData.img || defaultValues.img;
-    this.xOffsetRatio = partData.xOffsetRatio || defaultValues.xOffsetRatio;
-    this.yOffsetRatio = partData.yOffsetRatio || defaultValues.yOffsetRatio;
+  constructor({n, P, o, N, B}) {
+    const defaultConfig = Object.values(parts).find(partConfig => partConfig.bluePrint.n === n)
+
+    this.n = n;
+    this.P = P;
+    this.o = o;
+    this.N = N;
+    this.B = B;
+    this.img = defaultConfig.img;
+    this.defaultSize = defaultConfig.defaultSize;
+    this.xOffsetRatio = defaultConfig.xOffsetRatio;
+    this.yOffsetRatio = defaultConfig.yOffsetRatio;
   };
 
   @computed
@@ -84,10 +101,11 @@ export default class PartModel {
   @computed
   get bluePrintData() {
     return {
-      n: this.jsData.n,
-      P: this.jsData.P,
-      o: this.jsData.o,
-      N: this.jsData.N
+      n: this.n,
+      P: this.P,
+      o: this.o,
+      N: this.N,
+      B: this.B
     }
   }
 
@@ -111,9 +129,9 @@ export default class PartModel {
 
   @computed
   get size() {
-    const scaleX = this.o.x;
-    const scaleY = this.o.y;
-    const widthRatio = this.N.width;
+    const scaleX = this.o.x * this.defaultSize.x;
+    const scaleY = this.o.y * this.defaultSize.y;
+    const widthRatio = !this.N ? 1 : this.N.width || this.N.width_original;
 
     return {
       width: scaleX * widthRatio,
