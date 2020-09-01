@@ -23,7 +23,7 @@ const Part = observer(({p, handleRemove}) => {
 
     const sharedProps = {
       offsetX: p.offset.x * SCALE,
-      offsetY: p.offset.y * SCALE,
+      offsetY: ( p.size.height - p.offset.y) * SCALE,
       width: p.size.width * SCALE,
       height: p.size.height * SCALE,
       rotation: p.orientation,
@@ -42,7 +42,6 @@ const Part = observer(({p, handleRemove}) => {
           x={roundByHalfBlocSize(p.position.x) * SCALE}
           y={roundByHalfBlocSize(p.position.y) * SCALE}
           scaleY={-1}
-          offsetY={p.size.height * SCALE}
           filters={[Konva.Filters.RGBA]}
           red={255}
           green={255}
@@ -54,7 +53,6 @@ const Part = observer(({p, handleRemove}) => {
           x={p.position.x * SCALE}
           y={p.position.y * SCALE}
           scaleY={-1}
-          offsetY={p.size.height * SCALE}
           onClick={() => handleRemove(p)}
           onTouch={() => handleRemove(p)}
           draggable

@@ -12,8 +12,8 @@ export const parts = {
     bluePrint: {
       n: 'Probe',
       P: {
-        x: 0,
-        y: 0,
+        x: 1,
+        y: 1,
       },
       o: {
         x: 1,
@@ -33,8 +33,8 @@ export const parts = {
     bluePrint: {
       n: 'Fuel Tank',
       P: {
-        x: 0,
-        y: 0,
+        x: 1,
+        y: 1,
       },
       o: {
         x: 1,
@@ -54,12 +54,12 @@ export const parts = {
     img: ionEngineSrc,
     defaultSize: {x: 0.8, y: 0.5},
     xOffsetRatio: 0.5,
-    yOffsetRatio: 0,
+    yOffsetRatio: 1,
     bluePrint: {
       n: 'Placeholder ION',
       P: {
-        x: 0,
-        y: 0,
+        x: 1,
+        y: 1,
       },
       o: {
         x: 1,
