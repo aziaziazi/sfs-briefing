@@ -36,20 +36,10 @@ const ErrorButton = styled.button`
   background-color: #ef233c;
 `;
 
-const CopyButton = styled.button`
-  ${buttonStyle};
-  background-color: #edf2f4;
-  color: #2b2d42;
-`;
-
-export const Code = observer(() => {
-  console.log("buttonStyle => ", buttonStyle);
+export const Code = observer(({textAreaRef}) => {
   const canvasStore = useCanvas();
   const {height} = useWindowSize();
-  const textAreaRef = useRef(null);
   const [invalidEdition, setInvalidEdition] = useState(null);
-  const [copied, updateCopied] = useState(false);
-
 
   const handleEdit = e => {
     const value = e.target.value;
@@ -64,15 +54,6 @@ export const Code = observer(() => {
     }
   };
 
-  const handleCopy = () => {
-    textAreaRef.current.select();
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
-
-    updateCopied(true);
-    setTimeout(() => updateCopied(false), 500);
-  };
-
   return (
     <Fragment>
       <BlueprintArea
@@ -83,10 +64,7 @@ export const Code = observer(() => {
         ref={textAreaRef}
       />
       <ResetWrapper>
-        {invalidEdition
-          ? <ErrorButton onClick={() => setInvalidEdition(null)}>back to valid</ErrorButton>
-          : <CopyButton onClick={handleCopy}>{copied ? 'copied' : 'copy blueprint'}</CopyButton>
-        }
+        {invalidEdition && <ErrorButton onClick={() => setInvalidEdition(null)}>back to valid</ErrorButton>}
       </ResetWrapper>
     </Fragment>
   )

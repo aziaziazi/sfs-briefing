@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {buttonStyle} from "./code/Code";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -38,6 +39,11 @@ const Modal = styled.div`
     overflow-wrap: break-word;
     line-height: 1rem;
   }
+  
+  h1, h2{
+    line-height: 1.4rem;
+  }
+  
   code {
     line-break: anywhere;
     font-style: italic;
@@ -62,6 +68,14 @@ const Modal = styled.div`
   }
 `;
 
+const Go = styled.button`
+  ${buttonStyle};
+  display: block;
+  margin-top: 1rem;
+  background-color: #2b2d42;
+  color: #edf2f4;
+`
+
 export const Info = ({close}) => (
   <Wrapper>
     <Background onClick={close}/>
@@ -81,6 +95,7 @@ export const Info = ({close}) => (
         <li>👩‍🚀 Ready to launch ? Copy the blueprint then paste it in <code>Android\data\com.StefMorojna.SpaceflightSimulator\files\saving\blueprints\</code> You may use the excellent <a href="https://play.google.com/store/apps/details?id=sfs.gamingbp">SFS gaming bp</a> for that.</li>
       </ul>
       <i>Dear iOS friends, SFS briefing will only be relevant for Android users because your OS won't let you update the app files.</i>
+      <Go onClick={close}>Start Editing</Go>
     </Modal>
   </Wrapper>
 );

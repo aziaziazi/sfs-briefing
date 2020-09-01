@@ -11,12 +11,17 @@ const Wrapper = styled.div`
 `;
 
 const PartWrapper = styled.div`
+  margin-top: 1.2rem;
+  
+  &:first-of-type {
+    margin-top: 0;
+  }
 `;
 
 const PartName = styled.h3`
   font-family: monospace;
   font-weight: lighter;
-  margin: 1.2rem 0 0.1rem;
+  margin: 0 0 0.1rem;
   font-size: 0.8rem;
 `
 

@@ -91,10 +91,6 @@ const Background = ({stageWidth, stageHeight}) => {
   )
 }
 
-const StageContainer = styled.div`
-  border: 1px solid #edf2f4;
-`
-
 export const Canvas = observer(() => {
   const {width, height} = useWindowSize();
   const stageWidth = width / SCALE;
@@ -107,31 +103,29 @@ export const Canvas = observer(() => {
 
   return (
     <Fragment>
-      <StageContainer>
-        <Stage
-          ref={stageRef}
-          width={SCALE * stageWidth}
-          height={SCALE * stageHeight}
-          scaleX={1}
-          scaleY={-1}
-          offsetY={stageHeight * SCALE}
-        >
-          <StoreProvider store={store}>
-            <Layer>
-              <Background stageWidth={stageWidth} stageHeight={stageHeight}/>
-            </Layer>
-            <Layer>
-              {store.canvasElements.map((p, i) => (
-                <Part
-                  key={i}
-                  p={p}
-                  handleRemove={handleRemove}
-                />
-                ))}
-            </Layer>
-          </StoreProvider>
-        </Stage>
-      </StageContainer>
+      <Stage
+        ref={stageRef}
+        width={SCALE * stageWidth}
+        height={SCALE * stageHeight}
+        scaleX={1}
+        scaleY={-1}
+        offsetY={stageHeight * SCALE}
+      >
+        <StoreProvider store={store}>
+          <Layer>
+            <Background stageWidth={stageWidth} stageHeight={stageHeight}/>
+          </Layer>
+          <Layer>
+            {store.canvasElements.map((p, i) => (
+              <Part
+                key={i}
+                p={p}
+                handleRemove={handleRemove}
+              />
+              ))}
+          </Layer>
+        </StoreProvider>
+      </Stage>
     </Fragment>
   );
 });

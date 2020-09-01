@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { render } from "react-dom";
+import React, {useRef, useState} from "react";
+import {render} from "react-dom";
 import styled, {createGlobalStyle, css} from "styled-components";
 import {Canvas} from './components/canvas/Canvas';
 import {buttonStyle, Code} from "./components/code/Code";
@@ -29,26 +29,55 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const InfoButton = styled.button`
+const MenuButton = styled.button`
   ${buttonStyle};
-  align-self: flex-start;
   background-color: #edf2f4;
   color: #2b2d42;
   border: none;
-`
+  margin: 0.4rem 0 0;
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+const BottomThird = styled.div`
+  overflow: auto;
+  padding-top: 1.2rem;
+`;
 
 const App = () => {
   const [infoIsOpen, setInfoIsOpen] = useState(true);
+  const [copied, updateCopied] = useState(false);
+  const textAreaRef = useRef(null);
 
+  const handleCopy = () => {
+    textAreaRef.current.select();
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+
+    updateCopied(true);
+    setTimeout(() => updateCopied(false), 500);
+  };
   return (
     <div>
       <StoreProvider store={store}>
-        <GlobalStyle />
+        <GlobalStyle/>
         <Wrapper>
-          <Code />
-          <Canvas />
-          <InfoButton onClick={() => setInfoIsOpen(true)}>info</InfoButton>
-          <PartList />
+          <Code textAreaRef={textAreaRef}/>
+          <Canvas/>
+          <BottomThird>
+            <Menu>
+              <MenuButton onClick={handleCopy}>{copied ? 'copied' : 'copy blueprint'}</MenuButton>
+              <MenuButton onClick={() => setInfoIsOpen(true)}>info</MenuButton>
+            </Menu>
+            <PartList/>
+          </BottomThird>
           {infoIsOpen && <Info close={() => setInfoIsOpen(false)}/>}
         </Wrapper>
       </StoreProvider>
@@ -57,6 +86,6 @@ const App = () => {
 }
 
 render(
-  <App />,
+  <App/>,
   document.getElementById("root")
 );
