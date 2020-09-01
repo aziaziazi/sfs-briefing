@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useRef, useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
 import {useCanvas} from "../../stores";
@@ -10,6 +10,7 @@ const BlueprintArea = styled.textarea`
   box-sizing: border-box;
   font-family: monospace;
   font-weight: lighter;
+  font-size: 0.8rem;
   outline: none;
   border: 2px dashed ${p => p.isInvalid ? '#ef233c' : 'transparent'};
   background-color: transparent;
@@ -22,19 +23,28 @@ const ResetWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-    
-  button {
-    background-color: #ef233c;
-    border: none;
-    cursor: pointer;
-  }
+`;
+
+const ErrorButton = styled.button`
+  background-color: #ef233c;
+  border: none;
+  cursor: pointer;
+`;
+
+const CopyButton = styled.button`
+  border: none;
+  background-color: #edf2f4;
+  color: #2b2d42;
+  cursor: pointer;
 `;
 
 export const Code = observer(() => {
   const canvasStore = useCanvas();
   const {height} = useWindowSize();
-
+  const textAreaRef = useRef(null);
   const [invalidEdition, setInvalidEdition] = useState(null);
+  const [copied, updateCopied] = useState(false);
+
 
   const handleEdit = e => {
     const value = e.target.value;
@@ -49,6 +59,15 @@ export const Code = observer(() => {
     }
   };
 
+  const handleCopy = () => {
+    textAreaRef.current.select();
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+
+    updateCopied(true)
+    setTimeout(() => updateCopied(false), 500)
+  };
+
   return (
     <Fragment>
       <BlueprintArea
@@ -56,12 +75,14 @@ export const Code = observer(() => {
         value={invalidEdition || canvasStore.bluePrint}
         isInvalid={invalidEdition}
         height={height}
+        ref={textAreaRef}
       />
-      {invalidEdition &&
-        <ResetWrapper>
-          <button onClick={() => setInvalidEdition(null)}>back to previous valid code</button>
-        </ResetWrapper>
+      <ResetWrapper>
+        {invalidEdition
+          ? <ErrorButton onClick={() => setInvalidEdition(null)}>back to valid</ErrorButton>
+          : <CopyButton onClick={handleCopy}>{copied ? 'copied' : 'copy blueprint'}</CopyButton>
         }
+      </ResetWrapper>
     </Fragment>
   )
 });
