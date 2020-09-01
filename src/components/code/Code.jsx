@@ -2,23 +2,37 @@ import React, {Fragment, useState} from "react";
 import {observer} from "mobx-react";
 import styled from "styled-components";
 import {useCanvas} from "../../stores";
+import {useWindowSize} from "../../helpers/useWindowSize";
 
 const BlueprintArea = styled.textarea`
   flex-shrink: 0;
-  height: calc(100vh - 16px);
+  flex-basis: calc(${p => p.height}px / 3);
   box-sizing: border-box;
-  width: 250px;
   font-family: monospace;
+  font-weight: lighter;
   outline: none;
-  border: 1px solid ${p => p.isInvalid ? 'red' : 'black'}
+  border: 2px dashed ${p => p.isInvalid ? '#ef233c' : 'transparent'};
+  background-color: transparent;
+  resize: none;
 `;
 
-const ResetButton = styled.button`
+const ResetWrapper = styled.div`
   position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+    
+  button {
+    background-color: #ef233c;
+    border: none;
+    cursor: pointer;
+  }
 `;
 
 export const Code = observer(() => {
   const canvasStore = useCanvas();
+  const {height} = useWindowSize();
 
   const [invalidEdition, setInvalidEdition] = useState(null);
 
@@ -41,8 +55,13 @@ export const Code = observer(() => {
         onChange={handleEdit}
         value={invalidEdition || canvasStore.bluePrint}
         isInvalid={invalidEdition}
+        height={height}
       />
-      {invalidEdition && <ResetButton onClick={() => setInvalidEdition(null)}>back to previous valid code</ResetButton>}
+      {invalidEdition &&
+        <ResetWrapper>
+          <button onClick={() => setInvalidEdition(null)}>back to previous valid code</button>
+        </ResetWrapper>
+        }
     </Fragment>
   )
 });

@@ -3,11 +3,13 @@ import {observer} from "mobx-react";
 import Konva from 'konva';
 import {Image, Layer, Stage} from "react-konva";
 import useImage from "use-image";
+import styled from "styled-components";
 
 import {StoreProvider, useCanvas} from "../../stores";
 import backgroundPattern from '../../assets/backgroundPattern.svg'
+import {useWindowSize} from "../../helpers/useWindowSize";
 
-export const SCALE = 100
+export const SCALE = 50
 
 const Part = observer(({p, handleRemove}) => {
     const [image] = useImage(p.img);
@@ -58,7 +60,7 @@ const Part = observer(({p, handleRemove}) => {
           draggable
           onDragMove={(e) => {
             setDragging(true)
-            p.move(roundBy(e.target.attrs.x, 200) / SCALE, roundBy(e.target.attrs.y, 200) / SCALE);
+            p.move(roundBy(e.target.attrs.x, 1) / SCALE, roundBy(e.target.attrs.y, 1) / SCALE);
           }}
           onDragEnd={(e) => {
             setDragging(false);
@@ -89,9 +91,15 @@ const Background = ({stageWidth, stageHeight}) => {
   )
 }
 
+const StageContainer = styled.div`
+  border: 1px solid #edf2f4;
+`
+
 export const Canvas = observer(() => {
-  const stageWidth = 3;
-  const stageHeight = 5;
+  const {width, height} = useWindowSize();
+  const stageWidth = width / SCALE;
+  const stageHeight = height / SCALE / 3;
+
   const store = useCanvas();
   const stageRef = useRef(null);
 
@@ -99,29 +107,31 @@ export const Canvas = observer(() => {
 
   return (
     <Fragment>
-      <Stage
-        ref={stageRef}
-        width={SCALE * stageWidth}
-        height={SCALE * stageHeight}
-        scaleX={1}
-        scaleY={-1}
-        offsetY={stageHeight * SCALE}
-      >
-        <StoreProvider store={store}>
-          <Layer>
-            <Background stageWidth={stageWidth} stageHeight={stageHeight}/>
-          </Layer>
-          <Layer>
-            {store.canvasElements.map((p, i) => (
-              <Part
-                key={i}
-                p={p}
-                handleRemove={handleRemove}
-              />
-              ))}
-          </Layer>
-        </StoreProvider>
-      </Stage>
+      <StageContainer>
+        <Stage
+          ref={stageRef}
+          width={SCALE * stageWidth}
+          height={SCALE * stageHeight}
+          scaleX={1}
+          scaleY={-1}
+          offsetY={stageHeight * SCALE}
+        >
+          <StoreProvider store={store}>
+            <Layer>
+              <Background stageWidth={stageWidth} stageHeight={stageHeight}/>
+            </Layer>
+            <Layer>
+              {store.canvasElements.map((p, i) => (
+                <Part
+                  key={i}
+                  p={p}
+                  handleRemove={handleRemove}
+                />
+                ))}
+            </Layer>
+          </StoreProvider>
+        </Stage>
+      </StageContainer>
     </Fragment>
   );
 });
