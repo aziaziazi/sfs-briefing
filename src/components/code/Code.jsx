@@ -1,6 +1,6 @@
 import React, {Fragment, useRef, useState} from "react";
 import {observer} from "mobx-react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import {useCanvas} from "../../stores";
 import {useWindowSize} from "../../helpers/useWindowSize";
 
@@ -8,8 +8,6 @@ const BlueprintArea = styled.textarea`
   flex-shrink: 0;
   flex-basis: calc(${p => p.height}px / 3);
   box-sizing: border-box;
-  font-family: monospace;
-  font-weight: lighter;
   font-size: 0.8rem;
   outline: none;
   border: 2px dashed ${p => p.isInvalid ? '#ef233c' : 'transparent'};
@@ -25,20 +23,27 @@ const ResetWrapper = styled.div`
   justify-content: center;
 `;
 
-const ErrorButton = styled.button`
-  background-color: #ef233c;
-  border: none;
+export const buttonStyle = css`
+  padding: 0.4rem;
+  font-size: 0.6rem;
+  font-weight: bold;
   cursor: pointer;
+  border: none;
+`;
+
+const ErrorButton = styled.button`
+  ${buttonStyle};
+  background-color: #ef233c;
 `;
 
 const CopyButton = styled.button`
-  border: none;
+  ${buttonStyle};
   background-color: #edf2f4;
   color: #2b2d42;
-  cursor: pointer;
 `;
 
 export const Code = observer(() => {
+  console.log("buttonStyle => ", buttonStyle);
   const canvasStore = useCanvas();
   const {height} = useWindowSize();
   const textAreaRef = useRef(null);
@@ -64,8 +69,8 @@ export const Code = observer(() => {
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
 
-    updateCopied(true)
-    setTimeout(() => updateCopied(false), 500)
+    updateCopied(true);
+    setTimeout(() => updateCopied(false), 500);
   };
 
   return (

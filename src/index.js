@@ -1,13 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import { render } from "react-dom";
-import styled, {createGlobalStyle} from "styled-components";
+import styled, {createGlobalStyle, css} from "styled-components";
 import {Canvas} from './components/canvas/Canvas';
-import {Code} from "./components/code/Code";
+import {buttonStyle, Code} from "./components/code/Code";
 import {store, StoreProvider} from "./stores";
 import {PartList} from "./components/partList/PartList";
-import {parts} from "./models/PartModel";
-
-store.canvas.addPart(parts.Probe.bluePrint);
+import {Info} from "./components/Info";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -26,19 +24,39 @@ const GlobalStyle = createGlobalStyle`
   
   * > * {
     color: #edf2f4;
+    font-family: monospace;
+    font-weight: lighter;
   }
 `;
 
+const InfoButton = styled.button`
+  ${buttonStyle};
+  align-self: flex-start;
+  background-color: #edf2f4;
+  color: #2b2d42;
+  border: none;
+`
+
+const App = () => {
+  const [infoIsOpen, setInfoIsOpen] = useState(true);
+
+  return (
+    <div>
+      <StoreProvider store={store}>
+        <GlobalStyle />
+        <Wrapper>
+          <Code />
+          <Canvas />
+          <InfoButton onClick={() => setInfoIsOpen(true)}>info</InfoButton>
+          <PartList />
+          {infoIsOpen && <Info close={() => setInfoIsOpen(false)}/>}
+        </Wrapper>
+      </StoreProvider>
+    </div>
+  )
+}
+
 render(
-  <div>
-    <StoreProvider store={store}>
-      <GlobalStyle />
-      <Wrapper>
-        <Code />
-        <Canvas />
-        <PartList />
-      </Wrapper>
-    </StoreProvider>
-  </div>,
+  <App />,
   document.getElementById("root")
 );
