@@ -56,7 +56,7 @@ const Part = observer(({p, handleRemove}) => {
           y={p.position.y * SCALE}
           scaleY={-1}
           onClick={() => handleRemove(p)}
-          onTouch={() => handleRemove(p)}
+          onTap={() => handleRemove(p)}
           draggable
           onDragMove={(e) => {
             setDragging(true)
