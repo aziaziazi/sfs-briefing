@@ -81,8 +81,8 @@ export const Info = ({close}) => (
     <Background onClick={close}/>
     <Modal>
       <h1>🚀 SFS briefing</h1>
-      <p>Welcome! Create your spaceships with both blueprint and visual editors️ 👩‍💻👨‍🎨</p>
-      <p>This is a proof of concept in very early stage and contains only few parts and probably some bugs :) Feel free to submit PR's to the <a href="https://github.com/aziaziazi/sfs-briefing">source repo</a>.</p>
+      <p>Welcome space pilot! Create your ship with both blueprint and visual editors️ 👩‍💻👨‍🎨</p>
+      <p>This is a proof of concept. It contains few parts and many bugs. Feel free to submit PR's to the <a href="https://github.com/aziaziazi/sfs-briefing">source repo</a>.</p>
       <p><a href="https://play.google.com/store/apps/details?id=com.StefMorojna.SpaceflightSimulator&hl=fr">SpaceFlight Simulator</a> is an great sandbox game I strongly encourage you to try. If you like it too, support the team by buying an extension pack 👏</p>
 
       <h2>Instructions</h2>

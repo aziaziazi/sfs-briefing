@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Blueprint editor for spaceflight simulator",
   "scripts": {
-    "start": "webpack-dev-server --hot --open",
-    "build": "webpack",
+    "start": "webpack-dev-server --mode=development --hot --open",
+    "build": "webpack --mode=production",
     "lint": "eslint src"
   },
   "repository": {
@@ -40,6 +40,7 @@
     "mobx-react": "^6.2.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-ga": "^3.1.2",
     "react-konva": "^16.13.0-3",
     "styled-components": "^5.1.1",
     "use-image": "^1.0.6"

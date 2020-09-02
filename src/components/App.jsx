@@ -1,5 +1,6 @@
 import React, {useRef, useState} from "react";
 import styled, {createGlobalStyle} from "styled-components";
+import ReactGA from 'react-ga';
 import {Canvas} from './canvas/Canvas';
 import {buttonStyle, Code} from "./code/Code";
 import {store, StoreProvider} from "../stores";
@@ -56,6 +57,11 @@ export const App = () => {
   const textAreaRef = useRef(null);
 
   const handleCopy = () => {
+    ReactGA.event({
+      category: 'Edition',
+      action: 'copyWithButton'
+    });
+
     textAreaRef.current.select();
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
@@ -63,6 +69,24 @@ export const App = () => {
     updateCopied(true);
     setTimeout(() => updateCopied(false), 500);
   };
+
+  const openInfo = () => {
+    ReactGA.event({
+      category: 'InfoModal',
+      action: 'open'
+    });
+
+    setInfoIsOpen(true)
+  }
+
+  const closeInfo = () => {
+    ReactGA.event({
+      category: 'InfoModal',
+      action: 'close'
+    });
+    
+    setInfoIsOpen(false)
+  }
 
   return (
     <div>
@@ -74,11 +98,11 @@ export const App = () => {
           <BottomThird>
             <Menu>
               <MenuButton onClick={handleCopy}>{copied ? 'copied' : 'copy blueprint'}</MenuButton>
-              <MenuButton onClick={() => setInfoIsOpen(true)}>info</MenuButton>
+              <MenuButton onClick={openInfo}>info</MenuButton>
             </Menu>
             <PartList/>
           </BottomThird>
-          {infoIsOpen && <Info close={() => setInfoIsOpen(false)}/>}
+          {infoIsOpen && <Info close={closeInfo}/>}
         </Wrapper>
       </StoreProvider>
     </div>
