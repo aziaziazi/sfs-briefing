@@ -6,7 +6,8 @@ import {useWindowSize} from "../../helpers/useWindowSize";
 
 const BlueprintArea = styled.textarea`
   flex-shrink: 0;
-  flex-basis: calc(${p => p.height}px / 3);
+  flex-basis: calc(${p => p.elementHeight}px / 3);
+  height: ${p => p.elementHeight};
   box-sizing: border-box;
   font-size: 0.8rem;
   outline: none;
@@ -60,7 +61,7 @@ export const Code = observer(({textAreaRef}) => {
         onChange={handleEdit}
         value={invalidEdition || canvasStore.bluePrint}
         isInvalid={invalidEdition}
-        height={height}
+        elementHeight={height}
         ref={textAreaRef}
         id="blueprint-code"
         title="blueprint code editor"
