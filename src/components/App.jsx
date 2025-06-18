@@ -7,7 +7,7 @@ import {store, StoreProvider} from "../stores";
 import {PartList} from "./partList/PartList";
 import {Info} from "./Info";
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -92,7 +92,8 @@ export const App = () => {
     <div>
       <StoreProvider store={store}>
         <GlobalStyle/>
-        <Wrapper>
+        {infoIsOpen && <Info close={closeInfo}/>}
+        <Wrapper role="main">
           <Code textAreaRef={textAreaRef}/>
           <Canvas/>
           <BottomThird>
@@ -102,7 +103,6 @@ export const App = () => {
             </Menu>
             <PartList/>
           </BottomThird>
-          {infoIsOpen && <Info close={closeInfo}/>}
         </Wrapper>
       </StoreProvider>
     </div>

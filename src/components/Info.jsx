@@ -25,7 +25,8 @@ const Background = styled.div`
 `;
 
 const Modal = styled.div`
-  position: relative;
+  position: absolute;
+  z-index: 10;
   box-sizing: border-box;
   width: 500px;
   max-width: 100%;
