@@ -62,6 +62,8 @@ export const Code = observer(({textAreaRef}) => {
         isInvalid={invalidEdition}
         height={height}
         ref={textAreaRef}
+        id="blueprint-code"
+        title="blueprint code editor"
       />
       <ResetWrapper>
         {invalidEdition && <ErrorButton onClick={() => setInvalidEdition(null)}>back to valid</ErrorButton>}
